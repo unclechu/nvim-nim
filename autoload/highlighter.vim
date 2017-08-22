@@ -41,13 +41,13 @@ let s:NimHighlighter = {
             \ }
             " \ 'pty': 1
 
-function! s:NimHighlighter.on_stdout(job, chunk, ...)
+function! s:NimHighlighter.on_stdout(job, chunk, type)
     if len(a:chunk[0]) != 0 && !(a:chunk[0] =~ "^usage")
         call extend(self.lines, a:chunk)
     endif
 endfunction
 
-function! s:NimHighlighter.on_stderr(job, chunk, ...)
+function! s:NimHighlighter.on_stderr(job, chunk, type)
 endfunction
 
 function! Remove(id)
@@ -57,7 +57,7 @@ function! Remove(id)
     endtry
 endfunction
 
-function! s:NimHighlighter.on_exit(...)
+function! s:NimHighlighter.on_exit(job, chunk, type)
     if empty(self.lines) && self.file != expand("%:p")
         return
     endif
